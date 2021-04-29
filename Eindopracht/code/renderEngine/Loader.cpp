@@ -7,8 +7,8 @@ namespace renderEngine
 	namespace loader
 	{
 		static int createVAO();
-		static void storeDataInAttributeList(int attributeNumber, std::vector<float> data);
-		static void bindIndicesBuffer(std::vector<int> indices);
+		static void storeDataInAttributeList(int attributeNumber, std::vector<float>& data);
+		static void bindIndicesBuffer(std::vector<int>& indices);
 
 		static std::vector<GLuint> vaos;
 		static std::vector<GLuint> vbos;
@@ -17,7 +17,7 @@ namespace renderEngine
 			This function will get a list with all the vertex positions of
 			the mesh and will return an RawModel.
 		*/
-		struct RawModel loadToVAO(std::vector<float> positions, std::vector<int> indices)
+		struct RawModel loadToVAO(std::vector<float>& positions, std::vector<int>& indices)
 		{
 			int vaoID = createVAO();
 			bindIndicesBuffer(indices);
@@ -57,7 +57,7 @@ namespace renderEngine
 		/*
 			This function can store data (vbo) in a vao.
 		*/
-		static void storeDataInAttributeList(int attributeNumber, std::vector<float> data)
+		static void storeDataInAttributeList(int attributeNumber, std::vector<float>& data)
 		{
 			GLuint vboID;
 			glGenBuffers(1, &vboID);
@@ -74,7 +74,7 @@ namespace renderEngine
 			Using indices you won't have to specify double or more occuring vertices. You just use sort of a lookup table
 			to choose which vertex to get)
 		*/
-		static void bindIndicesBuffer(std::vector<int> indices)
+		static void bindIndicesBuffer(std::vector<int>& indices)
 		{
 			GLuint vboID;
 			glGenBuffers(1, &vboID);

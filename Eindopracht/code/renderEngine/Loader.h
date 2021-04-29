@@ -20,7 +20,7 @@ namespace renderEngine
 			@returns:
 			A new RawModel representing a mesh.
 		*/
-		struct RawModel loadToVAO(std::vector<float> positions, std::vector<int> indices);
+		struct RawModel loadToVAO(std::vector<float>& positions, std::vector<int>& indices);
 
 		/*
 			@brief:
