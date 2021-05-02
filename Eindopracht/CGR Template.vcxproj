@@ -156,16 +156,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="code\entities\Camera.cpp" />
     <ClCompile Include="code\renderEngine\Loader.cpp" />
-    <ClCompile Include="code\main.cpp" />
+    <ClCompile Include="code\MainManager.cpp" />
     <ClCompile Include="code\renderEngine\Renderer.cpp" />
-    <ClCompile Include="tigl.cpp" />
+    <ClCompile Include="code\shaders\ShaderProgram.cpp" />
+    <ClCompile Include="code\shaders\StaticShader.cpp" />
+    <ClCompile Include="code\toolbox\Toolbox.cpp" />
+    <ClCompile Include="code\entities\Entity.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="code\entities\Camera.h" />
     <ClInclude Include="code\renderEngine\Loader.h" />
-    <ClInclude Include="code\models\RawModel.h" />
+    <ClInclude Include="code\models\Model.h" />
     <ClInclude Include="code\renderEngine\Renderer.h" />
-    <ClInclude Include="tigl.h" />
+    <ClInclude Include="code\shaders\ShaderProgram.h" />
+    <ClInclude Include="code\shaders\StaticShader.h" />
+    <ClInclude Include="code\stb_image.h" />
+    <ClInclude Include="code\toolbox\Toolbox.h" />
+    <ClInclude Include="code\entities\Entity.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="code\shaders\fragmentShader.glsl" />
+    <None Include="code\shaders\vertexShader.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\blokje.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

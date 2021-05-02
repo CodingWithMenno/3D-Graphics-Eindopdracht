@@ -1,31 +1,26 @@
 #pragma once
 
+#include <string>
 #include <vector>
-#include "../models/RawModel.h"
+#include "../models/Model.h"
 
 namespace renderEngine
 {
 	namespace loader
 	{
 		/*
-			@brief: 
-			Call this function to store a mesh into openGL.
-
-			@param positions:
-			A list with the coordinates of all the vertices of the mesh.
-
-			@param indices:
-			A list with all the indices of the mesh.
-
-			@returns:
-			A new RawModel representing a mesh.
+			This function generates a model from model data.
 		*/
-		struct RawModel loadToVAO(std::vector<float>& positions, std::vector<int>& indices);
+		struct models::RawModel LoadToVAO(std::vector<float>& positions, std::vector<float>& textureCoords, std::vector<int>& indices);
 
 		/*
-			@brief:
+			Loads a texture from a file into openGL using stb_image.h
+		 */
+		GLuint LoadTexture(std::string fileName);
+		
+		/*
 			Call this function when cleaning up all the meshes (when exiting the program).
 		*/
-		void cleanUp();
+		void CleanUp();
 	}
 }
