@@ -19,7 +19,7 @@ namespace shaders
 		GLuint fragmentShaderID;
 
 	public:
-		ShaderProgram(std::string vertexFile, std::string fragmentFile);
+		ShaderProgram(std::string& vertexShader, std::string& fragmentShader);
 		virtual ~ShaderProgram() = default;
 
 		// Call this function after making the shaderprogram (sets all the attributes of the shader)
@@ -45,7 +45,7 @@ namespace shaders
 		GLuint getUniformLocation(const GLchar* uniformName) const;
 	
 	private:
-		GLuint loadShader(const std::string& file, GLuint type) const;
-		std::string readFromFile(const std::string& file) const;
+		GLuint loadShader(const std::string& shaderString, GLuint type) const;
+		//std::string readFromFile(const std::string& file) const;
 	};
 }

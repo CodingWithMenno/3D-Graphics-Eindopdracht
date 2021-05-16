@@ -9,10 +9,10 @@
 
 namespace shaders
 {
-	ShaderProgram::ShaderProgram(std::string vertexFile, std::string fragmentFile)
+	ShaderProgram::ShaderProgram(std::string& vertexShader, std::string& fragmentShader)
 	{
-		vertexShaderID = loadShader(vertexFile, GL_VERTEX_SHADER);
-		fragmentShaderID = loadShader(fragmentFile, GL_FRAGMENT_SHADER);
+		vertexShaderID = loadShader(vertexShader, GL_VERTEX_SHADER);
+		fragmentShaderID = loadShader(fragmentShader, GL_FRAGMENT_SHADER);
 		programID = glCreateProgram();
 		glAttachShader(programID, vertexShaderID);
 		glAttachShader(programID, fragmentShaderID);
@@ -77,9 +77,8 @@ namespace shaders
 	}
 
 	// This method loads a shader into openGL
-	GLuint ShaderProgram::loadShader(const std::string& file, const GLuint type) const
+	GLuint ShaderProgram::loadShader(const std::string& shaderString, const GLuint type) const
 	{
-		const std::string shaderString = readFromFile(file);
 		const char* shaderText = shaderString.c_str();
 		const GLuint shaderID = glCreateShader(type);
 		glShaderSource(shaderID, 1, &shaderText, NULL);
@@ -107,24 +106,24 @@ namespace shaders
 		return shaderID;
 	}
 
-	// This method reads a shader from a file into a string
-	std::string ShaderProgram::readFromFile(const std::string& file) const
-	{
-		std::string content;
-		std::ifstream fileStream(file, std::ios::in);
+	//// This method reads a shader from a file into a string
+	//std::string ShaderProgram::readFromFile(const std::string& file) const
+	//{
+	//	std::string content;
+	//	std::ifstream fileStream(file, std::ios::in);
 
-		if (!fileStream.is_open()) {
-			std::cerr << "Could not read file " << file << ". File does not exist." << std::endl;
-			std::exit(-1);
-		}
+	//	if (!fileStream.is_open()) {
+	//		std::cerr << "Could not read file " << file << ". File does not exist." << std::endl;
+	//		std::exit(-1);
+	//	}
 
-		std::string line;
-		while (!fileStream.eof()) {
-			std::getline(fileStream, line);
-			content.append(line + "\n");
-		}
+	//	std::string line;
+	//	while (!fileStream.eof()) {
+	//		std::getline(fileStream, line);
+	//		content.append(line + "\n");
+	//	}
 
-		fileStream.close();
-		return content;
-	}
+	//	fileStream.close();
+	//	return content;
+	//}
 }

@@ -9,9 +9,6 @@
 	This class does represents the shaders for the models.
  */
 
-#define VERTEX_FILE "code/shaders/vertexShader.glsl"
-#define FRAGMENT_FILE "code/shaders/fragmentShader.glsl"
-
 namespace shaders
 {	
 	class StaticShader : public ShaderProgram
