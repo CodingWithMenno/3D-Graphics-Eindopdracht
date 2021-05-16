@@ -159,6 +159,7 @@
     <ClCompile Include="code\entities\Camera.cpp" />
     <ClCompile Include="code\renderEngine\Loader.cpp" />
     <ClCompile Include="code\MainManager.cpp" />
+    <ClCompile Include="code\renderEngine\ObjLoader.cpp" />
     <ClCompile Include="code\renderEngine\Renderer.cpp" />
     <ClCompile Include="code\shaders\ShaderProgram.cpp" />
     <ClCompile Include="code\shaders\StaticShader.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="code\entities\Camera.h" />
     <ClInclude Include="code\renderEngine\Loader.h" />
     <ClInclude Include="code\models\Model.h" />
+    <ClInclude Include="code\renderEngine\ObjLoader.h" />
     <ClInclude Include="code\renderEngine\Renderer.h" />
     <ClInclude Include="code\shaders\ShaderProgram.h" />
     <ClInclude Include="code\shaders\StaticShader.h" />
@@ -179,9 +181,6 @@
   <ItemGroup>
     <None Include="code\shaders\fragmentShader.glsl" />
     <None Include="code\shaders\vertexShader.glsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\blokje.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

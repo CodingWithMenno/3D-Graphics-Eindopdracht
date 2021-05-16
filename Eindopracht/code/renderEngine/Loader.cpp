@@ -9,7 +9,7 @@ namespace renderEngine
 	{
 		static GLuint createVAO();
 		static void storeDataInAttributeList(int attributeNumber, int coordinateSize, std::vector<float>& data);
-		static void bindIndicesBuffer(std::vector<int>& indices);
+		static void bindIndicesBuffer(std::vector<unsigned int>& indices);
 
 		static std::vector<GLuint> vaos;
 		static std::vector<GLuint> vbos;
@@ -18,7 +18,7 @@ namespace renderEngine
 		/*
 			This function will generate a Model from vertex positions, textureCoordinates and indices.
 		*/
-		struct models::RawModel LoadToVAO(std::vector<float>& positions, std::vector<float>& textureCoords, std::vector<int>& indices)
+		struct models::RawModel LoadToVAO(std::vector<float>& positions, std::vector<float>& textureCoords, std::vector<unsigned int>& indices)
 		{
 			GLuint vaoID = createVAO();
 			bindIndicesBuffer(indices);
@@ -106,7 +106,7 @@ namespace renderEngine
 					3,1,2
 				};
 		*/
-		static void bindIndicesBuffer(std::vector<int>& indices)
+		static void bindIndicesBuffer(std::vector<unsigned int>& indices)
 		{
 			GLuint vboID;
 			glGenBuffers(1, &vboID);

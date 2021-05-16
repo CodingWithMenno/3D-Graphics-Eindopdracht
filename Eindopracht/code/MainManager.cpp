@@ -3,10 +3,13 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <vector>
 #define STB_IMAGE_IMPLEMENTATION
+#include <ostream>
+
 #include "stb_image.h"
 
 #include "models/Model.h"
 #include "renderEngine/Loader.h"
+#include "renderEngine/ObjLoader.h"
 #include "renderEngine/Renderer.h"
 #include "shaders/StaticShader.h"
 #include "toolbox/Toolbox.h"
@@ -41,33 +44,12 @@ int main(void)
 	    if (key == GLFW_KEY_ESCAPE)
 	        glfwSetWindowShouldClose(window, true);
     });
+	
 
-    std::vector<float> vertices =
-    {
-      -0.5f, 0.5f, 0,
-      -0.5f, -0.5f, 0,
-      0.5f, -0.5f, 0,
-      0.5f, 0.5f, 0
-    };
-
-    std::vector<int> indices =
-    {
-        0,1,3,
-        3,1,2
-    };
-
-    std::vector<float> textureCoords =
-    {
-        0,0,
-        0,1,
-        1,1,
-        1,0
-    };
-
-    models::RawModel rawModel = renderEngine::loader::LoadToVAO(vertices, textureCoords, indices);
-    models::ModelTexture texture = { renderEngine::loader::LoadTexture("res/blokje.png") };
+    models::RawModel rawModel = LoadObjModel("res/Tree.obj");
+    models::ModelTexture texture = { renderEngine::loader::LoadTexture("res/TreeTexture.png") };
     models::TexturedModel model = { rawModel, texture };
-    entities::Entity entity(model, glm::vec3(0, 0, -1), glm::vec3(0, 0, 0), 1);
+    entities::Entity entity(model, glm::vec3(0, -20, -50), glm::vec3(0, 0, 0), 1);
 	
     shaders::StaticShader shader;
     shader.init();
@@ -80,7 +62,7 @@ int main(void)
 	{
         // Update
         const double delta = updateDelta();
-        entity.increasePosition(glm::vec3(0, 0, -0.1f));
+        entity.increaseRotation(glm::vec3(0, 1, 0));
         camera.move(window);
 
 		// Render

@@ -39,6 +39,9 @@
     <ClCompile Include="code\entities\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="code\renderEngine\ObjLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\renderEngine\Loader.h">
@@ -68,6 +71,9 @@
     <ClInclude Include="code\entities\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="code\renderEngine\ObjLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="code\shaders\fragmentShader.glsl">
@@ -76,10 +82,5 @@
     <None Include="code\shaders\vertexShader.glsl">
       <Filter>Resource Files</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\blokje.png">
-      <Filter>Resource Files</Filter>
-    </Image>
   </ItemGroup>
 </Project>

@@ -11,7 +11,7 @@ namespace renderEngine
 		/*
 			This function generates a model from model data.
 		*/
-		struct models::RawModel LoadToVAO(std::vector<float>& positions, std::vector<float>& textureCoords, std::vector<int>& indices);
+		struct models::RawModel LoadToVAO(std::vector<float>& positions, std::vector<float>& textureCoords, std::vector<unsigned int>& indices);
 
 		/*
 			Loads a texture from a file into openGL using stb_image.h
