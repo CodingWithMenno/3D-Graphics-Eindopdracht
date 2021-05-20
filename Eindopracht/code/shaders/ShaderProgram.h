@@ -46,6 +46,5 @@ namespace shaders
 	
 	private:
 		GLuint loadShader(const std::string& shaderString, GLuint type) const;
-		//std::string readFromFile(const std::string& file) const;
 	};
 }

@@ -74,13 +74,8 @@
     <ClInclude Include="code\renderEngine\ObjLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="code\shaders\fragmentShader.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="code\shaders\vertexShader.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
+    <ClInclude Include="code\entities\Light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

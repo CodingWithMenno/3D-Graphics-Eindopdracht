@@ -168,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\entities\Camera.h" />
+    <ClInclude Include="code\entities\Light.h" />
     <ClInclude Include="code\renderEngine\Loader.h" />
     <ClInclude Include="code\models\Model.h" />
     <ClInclude Include="code\renderEngine\ObjLoader.h" />
@@ -177,10 +178,6 @@
     <ClInclude Include="code\stb_image.h" />
     <ClInclude Include="code\toolbox\Toolbox.h" />
     <ClInclude Include="code\entities\Entity.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="code\shaders\fragmentShader.glsl" />
-    <None Include="code\shaders\vertexShader.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

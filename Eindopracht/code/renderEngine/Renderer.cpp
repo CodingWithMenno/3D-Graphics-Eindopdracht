@@ -20,7 +20,8 @@ namespace renderEngine
 		{
 			const glm::mat4 projectionMatrix = 
 				glm::perspective(glm::radians(FOV), (WINDOW_WIDTH / WINDOW_HEIGT), NEAR_PLANE, FAR_PLANE);
-			
+
+			// Load the projectionmatrix into the shader
 			shader.start();
 			shader.loadProjectionMatrix(projectionMatrix);
 			shader.stop();
@@ -47,9 +48,10 @@ namespace renderEngine
 			// Enable the model
 			glBindVertexArray(rawModel.vaoID);
 
-			// Enable the inputs for the vertexShader
+			// Enable the VBO's from the model (VAO)
 			glEnableVertexAttribArray(0);
 			glEnableVertexAttribArray(1);
+			glEnableVertexAttribArray(2);
 
 			// Load the transformation of the model into the shader
 			const glm::mat4 modelMatrix = toolbox::createModelMatrix(entity.getPosition(), entity.getRotation(), entity.getScale());
@@ -59,9 +61,11 @@ namespace renderEngine
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, model.texture.textureID);
 			glDrawElements(GL_TRIANGLES, rawModel.vertexCount, GL_UNSIGNED_INT, 0);
-			
+
+			// Disable the VBO's and model
 			glDisableVertexAttribArray(0);
 			glDisableVertexAttribArray(1);
+			glDisableVertexAttribArray(2);
 			glBindVertexArray(0);
 		}
 	}

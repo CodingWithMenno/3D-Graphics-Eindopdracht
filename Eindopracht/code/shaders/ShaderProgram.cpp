@@ -105,25 +105,4 @@ namespace shaders
 
 		return shaderID;
 	}
-
-	//// This method reads a shader from a file into a string
-	//std::string ShaderProgram::readFromFile(const std::string& file) const
-	//{
-	//	std::string content;
-	//	std::ifstream fileStream(file, std::ios::in);
-
-	//	if (!fileStream.is_open()) {
-	//		std::cerr << "Could not read file " << file << ". File does not exist." << std::endl;
-	//		std::exit(-1);
-	//	}
-
-	//	std::string line;
-	//	while (!fileStream.eof()) {
-	//		std::getline(fileStream, line);
-	//		content.append(line + "\n");
-	//	}
-
-	//	fileStream.close();
-	//	return content;
-	//}
 }

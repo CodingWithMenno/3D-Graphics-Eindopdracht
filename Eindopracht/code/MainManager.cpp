@@ -1,7 +1,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
-#include <vector>
 #define STB_IMAGE_IMPLEMENTATION
 #include <ostream>
 
@@ -45,11 +44,12 @@ int main(void)
 	        glfwSetWindowShouldClose(window, true);
     });
 	
-
+	
     models::RawModel rawModel = LoadObjModel("res/Tree.obj");
     models::ModelTexture texture = { renderEngine::loader::LoadTexture("res/TreeTexture.png") };
     models::TexturedModel model = { rawModel, texture };
-    entities::Entity entity(model, glm::vec3(0, -20, -50), glm::vec3(0, 0, 0), 1);
+    entities::Entity entity(model, glm::vec3(0, -25, -50), glm::vec3(0, 0, 0), 1);
+    entities::Light light(glm::vec3(0, 0, -30), glm::vec3(1, 1, 1));
 	
     shaders::StaticShader shader;
     shader.init();
@@ -68,6 +68,7 @@ int main(void)
 		// Render
         renderEngine::renderer::Prepare();
         shader.start();
+        shader.loadLight(light);
         shader.loadViewMatrix(camera);
 		
         renderEngine::renderer::Render(entity, shader);

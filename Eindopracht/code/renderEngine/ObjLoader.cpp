@@ -28,7 +28,7 @@ static std::vector<std::string> split(const std::string& s, char delim)
     return elems;
 }
 
-static void processVertex(const  std::vector<std::string>& vertexData,
+static void processVertex(const std::vector<std::string>& vertexData,
     const std::vector<glm::vec3>& normals,
     const std::vector<glm::vec2>& textures,
     std::vector<GLuint>& indices,
@@ -39,8 +39,8 @@ static void processVertex(const  std::vector<std::string>& vertexData,
     indices.push_back(currentVertexPointer);
 
     glm::vec2 currentTexture = textures.at(std::stoi(vertexData.at(1)) - 1);
-    textureArray[currentVertexPointer * 2] = currentTexture.x;
-    textureArray[currentVertexPointer * 2 + 1] = 1 - currentTexture.y;
+    textureArray[(currentVertexPointer * 2) % textureArray.size()] = currentTexture.x;
+    textureArray[(currentVertexPointer * 2 + 1) % textureArray.size()] = 1 - currentTexture.y;
 
     glm::vec3 currentNorm = normals.at(std::stoi(vertexData.at(2)) - 1);
     normalArray[currentVertexPointer * 3] = currentNorm.x;
@@ -99,6 +99,7 @@ models::RawModel LoadObjModel(std::string fileName)
                 break;
             }
         }
+    	
         while (true)
         {
             std::vector<std::string> splitline = split(line, ' ');
@@ -129,5 +130,5 @@ models::RawModel LoadObjModel(std::string fileName)
         vertexArray[p++] = vertex.z;
     }
 
-    return renderEngine::loader::LoadToVAO( vertexArray, textureArray, indices);
+    return renderEngine::loader::LoadToVAO(vertexArray, textureArray, normalArray, indices);
 }
