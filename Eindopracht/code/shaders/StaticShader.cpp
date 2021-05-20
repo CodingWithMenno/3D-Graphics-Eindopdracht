@@ -18,6 +18,7 @@ namespace shaders
 	out vec2 passTextureCoords;	
 	out vec3 surfaceNormal;
 	out vec3 toLightVector;
+	out vec3 toCameraVector;
 
 	uniform mat4 modelMatrix;
 	uniform mat4 projectionMatrix;
@@ -38,6 +39,7 @@ namespace shaders
 
 		surfaceNormal = (modelMatrix * vec4(normal, 0.0)).xyz;
 		toLightVector = lightPosition - worldPosition.xyz;
+		toCameraVector = (inverse(viewMatrix) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition.xyz;
 	}
 	)";
 	
@@ -52,24 +54,39 @@ namespace shaders
 
 	in vec3 surfaceNormal;
 	in vec3 toLightVector;
+	in vec3 toCameraVector;
 
 	// Final color of the pixel
 	out vec4 outColor;
 
 	// The texture of the model
 	uniform sampler2D textureSampler;
+	
 	uniform vec3 lightColor;
+	uniform float shineDamper;
+	uniform float reflectivity;
 
 	void main(void)
 	{
 		vec3 unitNormal = normalize(surfaceNormal);
 		vec3 unitLightVector = normalize(toLightVector);
+		vec3 unitCameraVector = normalize(toCameraVector); 
 
-		float dotProduct = dot(unitNormal, unitLightVector);
-		float brightness = max(dotProduct, 0.0);
+		// Calculate the diffuse lighting
+		float dotDiffuse = dot(unitNormal, unitLightVector);
+		float brightness = max(dotDiffuse, 0.0);
 		vec3 diffuse = brightness * lightColor;
+
+		// Calculate the specular lighting
+		vec3 lightDirection = -unitLightVector;
+		vec3 reflectedLightDirection = reflect(lightDirection, unitNormal);
+		float dotSpecular = dot(reflectedLightDirection, unitCameraVector);
+		dotSpecular = max(dotSpecular, 0.0);
+		float dampedSpecular = pow(dotSpecular, shineDamper);
+		vec3 specular = dampedSpecular * reflectivity * lightColor;
+		
 	
-		outColor = vec4(diffuse, 1.0) * texture(textureSampler, passTextureCoords);
+		outColor = vec4(diffuse, 1.0) * texture(textureSampler, passTextureCoords) + vec4(specular, 1.0);
 	}
 	)";
 	
@@ -99,7 +116,13 @@ namespace shaders
 		loadVector(location_lightPosition, light.getPosition());
 		loadVector(location_lightColor, light.getColor());
 	}
-	 
+
+	void StaticShader::loadShineVariables(float shineDamper, float reflectivity) const
+	{
+		loadFloat(location_shineDamper, shineDamper);
+		loadFloat(location_reflectivity, reflectivity);
+	}
+
 	void StaticShader::setAttributes() const
 	{
 		// Load the position VBO and textureCoords VBO from the VAO into the shader "in" variables
@@ -116,5 +139,7 @@ namespace shaders
 		location_viewMatrix = getUniformLocation("viewMatrix");
 		location_lightPosition = getUniformLocation("lightPosition");
 		location_lightColor = getUniformLocation("lightColor");
+		location_shineDamper = getUniformLocation("shineDamper");
+		location_reflectivity = getUniformLocation("reflectivity");
 	}
 }

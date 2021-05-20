@@ -19,6 +19,8 @@ namespace shaders
 		GLuint location_viewMatrix;
 		GLuint location_lightPosition;
 		GLuint location_lightColor;
+		GLuint location_shineDamper;
+		GLuint location_reflectivity;
 		
 	public:
 		StaticShader();
@@ -28,6 +30,7 @@ namespace shaders
 		void loadViewMatrix(entities::Camera& camera) const;
 
 		void loadLight(entities::Light& light) const;
+		void loadShineVariables(float shineDamper, float reflectivity) const;
 			
 	protected:
 		void setAttributes() const override;

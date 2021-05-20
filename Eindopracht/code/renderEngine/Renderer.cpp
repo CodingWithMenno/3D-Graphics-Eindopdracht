@@ -44,6 +44,7 @@ namespace renderEngine
 		{
 			const models::TexturedModel model = entity.getModel();
 			const models::RawModel rawModel = model.rawModel;
+			const models::ModelTexture texture = model.texture;
 
 			// Enable the model
 			glBindVertexArray(rawModel.vaoID);
@@ -56,6 +57,7 @@ namespace renderEngine
 			// Load the transformation of the model into the shader
 			const glm::mat4 modelMatrix = toolbox::createModelMatrix(entity.getPosition(), entity.getRotation(), entity.getScale());
 			shader.loadModelMatrix(modelMatrix);
+			shader.loadShineVariables(texture.shineDamper, texture.reflectivity);
 			
 			// Draw the model
 			glActiveTexture(GL_TEXTURE0);
