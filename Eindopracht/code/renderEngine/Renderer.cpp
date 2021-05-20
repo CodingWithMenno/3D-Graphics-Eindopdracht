@@ -18,6 +18,10 @@ namespace renderEngine
 		 */
 		void Init(shaders::StaticShader& shader)
 		{
+			// Faces which are not facing the camera are not rendered
+			glEnable(GL_CULL_FACE);
+			glCullFace(GL_BACK);
+			
 			const glm::mat4 projectionMatrix = 
 				glm::perspective(glm::radians(FOV), (WINDOW_WIDTH / WINDOW_HEIGT), NEAR_PLANE, FAR_PLANE);
 

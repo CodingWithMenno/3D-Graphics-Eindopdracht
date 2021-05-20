@@ -74,7 +74,7 @@ namespace shaders
 
 		// Calculate the diffuse lighting
 		float dotDiffuse = dot(unitNormal, unitLightVector);
-		float brightness = max(dotDiffuse, 0.0);
+		float brightness = max(dotDiffuse, 0.2);
 		vec3 diffuse = brightness * lightColor;
 
 		// Calculate the specular lighting
