@@ -7,26 +7,8 @@ namespace entities
 		rotation(rotation)
 	{}
 
-	void Camera::move(GLFWwindow* window)
+	void Camera::move(GLFWwindow* window, const double delta)
 	{
-		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		{
-			position.z -= speed;
-		}
 
-		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		{
-			position.z += speed;
-		}
-
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		{
-			position.x += speed;
-		}
-
-		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		{
-			position.x -= speed;
-		}
 	}
 }

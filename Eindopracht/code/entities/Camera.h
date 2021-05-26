@@ -16,7 +16,7 @@ namespace entities
 	public:
 		Camera(const ::glm::vec3& position, const ::glm::vec3& rotation);
 
-		void move(GLFWwindow* window);
+		void move(GLFWwindow* window, const double delta);
 		
 		inline glm::vec3 getPosition() const{ return position; }
 		inline glm::vec3 getRotation() const{ return rotation; }

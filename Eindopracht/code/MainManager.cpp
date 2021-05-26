@@ -2,9 +2,11 @@
 #include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
 #define STB_IMAGE_IMPLEMENTATION
+#include <iostream>
 #include <ostream>
 
 #include "stb_image.h"
+#include "entities/Player.h"
 
 #include "models/Model.h"
 #include "renderEngine/Loader.h"
@@ -43,38 +45,46 @@ int main(void)
 	    if (key == GLFW_KEY_ESCAPE)
 	        glfwSetWindowShouldClose(window, true);
     });
+
+    std::cout << "Loading..." << std::endl;
 	
-	
-    models::RawModel rawModel = renderEngine::LoadObjModel("res/Tree.obj");
-    models::ModelTexture texture = { renderEngine::loader::LoadTexture("res/TreeTexture.png") };
-    texture.shineDamper = 10;
-    texture.reflectivity = 1;
-    models::TexturedModel model = { rawModel, texture };
-    entities::Entity entity(model, glm::vec3(0, -25, -50), glm::vec3(0, 0, 0), 1);
-    entities::Light light(glm::vec3(0, 0, -30), glm::vec3(1, 1, 1));
+    models::RawModel groundRawModel = renderEngine::LoadObjModel("res/Ground.obj");
+    models::ModelTexture groundTexture = { renderEngine::loader::LoadTexture("res/Texture.png") };
+    models::TexturedModel groundModel = { groundRawModel, groundTexture };
+    entities::Entity ground(groundModel, glm::vec3(0, -35, 0), glm::vec3(0, 0, 0), 50);
+    entities::Light sun(glm::vec3(0, 1000, -7000), glm::vec3(5, 5, 5));
+
+    models::RawModel playerRawModel = renderEngine::LoadObjModel("res/Bee.obj");
+    models::ModelTexture playerTexture = { renderEngine::loader::LoadTexture("res/Texture.png") };
+    models::TexturedModel playerModel = { playerRawModel, playerTexture };
+    entities::Player player(playerModel, glm::vec3(0, 5, -20), 1);
 	
     shaders::StaticShader shader;
     shader.init();
     renderEngine::renderer::Init(shader);
 
-    entities::Camera camera(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0));
+    entities::Camera camera(glm::vec3(0, 20, 0), glm::vec3(0, 0, 0));
+
+    std::cout << "Ready" << std::endl;
 	
 	// Main game loop
 	while (!glfwWindowShouldClose(window))
 	{
         // Update
         const double delta = updateDelta();
-        entity.increaseRotation(glm::vec3(0, 1, 0));
-        camera.move(window);
+
+        camera.move(window, delta);
+        player.move(window, delta);
 
 		// Render
         renderEngine::renderer::Prepare();
         shader.start();
         shader.loadSkyColor(renderEngine::renderer::SKY_COLOR);
-        shader.loadLight(light);
+        shader.loadLight(sun);
         shader.loadViewMatrix(camera);
 		
-        renderEngine::renderer::Render(entity, shader);
+        renderEngine::renderer::Render(ground, shader);
+        renderEngine::renderer::Render(player, shader);
 
 		// Finish up
         shader.stop();
@@ -93,7 +103,7 @@ static double updateDelta()
 {
     double currentTime = glfwGetTime();
     static double lastFrameTime = currentTime;
-    double deltaTime = currentTime - lastFrameTime;
+    double deltaTime = (currentTime - lastFrameTime);
     lastFrameTime = currentTime;
     return deltaTime;
 }

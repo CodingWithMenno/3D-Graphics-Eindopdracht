@@ -42,6 +42,9 @@
     <ClCompile Include="code\renderEngine\ObjLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="code\entities\Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\renderEngine\Loader.h">
@@ -75,6 +78,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="code\entities\Light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="code\entities\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
