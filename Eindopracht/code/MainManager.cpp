@@ -45,7 +45,7 @@ int main(void)
     });
 	
 	
-    models::RawModel rawModel = LoadObjModel("res/Tree.obj");
+    models::RawModel rawModel = renderEngine::LoadObjModel("res/Tree.obj");
     models::ModelTexture texture = { renderEngine::loader::LoadTexture("res/TreeTexture.png") };
     texture.shineDamper = 10;
     texture.reflectivity = 1;
@@ -70,6 +70,7 @@ int main(void)
 		// Render
         renderEngine::renderer::Prepare();
         shader.start();
+        shader.loadSkyColor(renderEngine::renderer::SKY_COLOR);
         shader.loadLight(light);
         shader.loadViewMatrix(camera);
 		

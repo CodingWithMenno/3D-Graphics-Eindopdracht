@@ -21,6 +21,7 @@ namespace shaders
 		GLuint location_lightColor;
 		GLuint location_shineDamper;
 		GLuint location_reflectivity;
+		GLuint location_skyColor;
 		
 	public:
 		StaticShader();
@@ -31,6 +32,8 @@ namespace shaders
 
 		void loadLight(entities::Light& light) const;
 		void loadShineVariables(float shineDamper, float reflectivity) const;
+
+		void loadSkyColor(glm::vec3 color) const;
 			
 	protected:
 		void setAttributes() const override;

@@ -8,7 +8,7 @@ namespace entities
 	class Camera
 	{
 	private:
-		float speed = 0.02f;
+		float speed = 0.1f;
 		
 		glm::vec3 position;
 		glm::vec3 rotation;
