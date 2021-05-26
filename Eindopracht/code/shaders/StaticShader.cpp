@@ -27,8 +27,8 @@ namespace shaders
 	uniform vec3 lightPosition;
 
 	// Fog variables
-	const float density = 0.0075;
-	const float gradient = 3.0;
+	const float density = 0.0045;
+	const float gradient = 4.0;
 	
 	void main(void)
 	{

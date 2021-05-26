@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "Toolbox.h"
 
 namespace toolbox
@@ -22,5 +23,10 @@ namespace toolbox
 		const glm::vec3 negativeCamPos = glm::vec3(-camera.getPosition().x, -camera.getPosition().y, -camera.getPosition().z);
 		matrix = glm::translate(matrix, negativeCamPos);
 		return matrix;
+	}
+
+	float clamp(float value, float min, float max)
+	{
+		return std::max(min, std::min(value, max));
 	}
 }

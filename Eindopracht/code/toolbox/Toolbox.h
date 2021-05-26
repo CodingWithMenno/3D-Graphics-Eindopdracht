@@ -11,4 +11,6 @@ namespace toolbox
 	glm::mat4 createModelMatrix(glm::vec3 translation, glm::vec3 rotation, float scale);
 
 	glm::mat4 createViewMatrix(entities::Camera& camera);
+
+	float clamp(float value, float min, float max);
 }

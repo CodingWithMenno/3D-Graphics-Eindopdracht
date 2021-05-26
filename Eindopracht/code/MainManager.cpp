@@ -40,6 +40,7 @@ int main(void)
     glGetError();
 	#pragma endregion
 
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
     {
 	    if (key == GLFW_KEY_ESCAPE)
@@ -51,19 +52,19 @@ int main(void)
     models::RawModel groundRawModel = renderEngine::LoadObjModel("res/Ground.obj");
     models::ModelTexture groundTexture = { renderEngine::loader::LoadTexture("res/Texture.png") };
     models::TexturedModel groundModel = { groundRawModel, groundTexture };
-    entities::Entity ground(groundModel, glm::vec3(0, -35, 0), glm::vec3(0, 0, 0), 50);
-    entities::Light sun(glm::vec3(0, 1000, -7000), glm::vec3(5, 5, 5));
-
+    entities::Entity ground(groundModel, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), 30);
+    entities::Light sun(glm::vec3(0, 1000, -7000), glm::vec3(2, 2, 2));
+	
     models::RawModel playerRawModel = renderEngine::LoadObjModel("res/Bee.obj");
     models::ModelTexture playerTexture = { renderEngine::loader::LoadTexture("res/Texture.png") };
     models::TexturedModel playerModel = { playerRawModel, playerTexture };
-    entities::Player player(playerModel, glm::vec3(0, 5, -20), 1);
+    entities::Player player(playerModel, glm::vec3(0, 35, 0), 1);
+
+    entities::Camera camera(player);
 	
     shaders::StaticShader shader;
     shader.init();
     renderEngine::renderer::Init(shader);
-
-    entities::Camera camera(glm::vec3(0, 20, 0), glm::vec3(0, 0, 0));
 
     std::cout << "Ready" << std::endl;
 	
