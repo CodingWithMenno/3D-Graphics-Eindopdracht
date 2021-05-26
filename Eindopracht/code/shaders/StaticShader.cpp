@@ -120,7 +120,7 @@ namespace shaders
 
 	void StaticShader::loadViewMatrix(entities::Camera& camera) const
 	{
-		const glm::mat4 viewMatrix = toolbox::createViewMatrix(camera);
+		const glm::mat4 viewMatrix = toolbox::CreateViewMatrix(camera);
 		loadMatrix(location_viewMatrix, viewMatrix);
 	}
 

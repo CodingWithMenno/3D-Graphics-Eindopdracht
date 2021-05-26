@@ -48,23 +48,29 @@ int main(void)
     });
 
     std::cout << "Loading..." << std::endl;
+
+    std::vector<entities::Entity*> entities;
 	
     models::RawModel groundRawModel = renderEngine::LoadObjModel("res/Ground.obj");
     models::ModelTexture groundTexture = { renderEngine::loader::LoadTexture("res/Texture.png") };
     models::TexturedModel groundModel = { groundRawModel, groundTexture };
     entities::Entity ground(groundModel, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), 30);
-    entities::Light sun(glm::vec3(0, 1000, -7000), glm::vec3(2, 2, 2));
+    entities.push_back(&ground);
 	
     models::RawModel playerRawModel = renderEngine::LoadObjModel("res/Bee.obj");
     models::ModelTexture playerTexture = { renderEngine::loader::LoadTexture("res/Texture.png") };
     models::TexturedModel playerModel = { playerRawModel, playerTexture };
     entities::Player player(playerModel, glm::vec3(0, 35, 0), 1);
+    entities.push_back(&player);
 
+    entities::Light sun(glm::vec3(500, 1000, -7000), glm::vec3(2.2, 2.2, 1));
+	
     entities::Camera camera(player);
 	
-    shaders::StaticShader shader;
-    shader.init();
-    renderEngine::renderer::Init(shader);
+    shaders::StaticShader entityShader;
+    entityShader.init();
+	
+    renderEngine::renderer::Init(entityShader);
 
     std::cout << "Ready" << std::endl;
 	
@@ -79,22 +85,18 @@ int main(void)
 
 		// Render
         renderEngine::renderer::Prepare();
-        shader.start();
-        shader.loadSkyColor(renderEngine::renderer::SKY_COLOR);
-        shader.loadLight(sun);
-        shader.loadViewMatrix(camera);
-		
-        renderEngine::renderer::Render(ground, shader);
-        renderEngine::renderer::Render(player, shader);
 
+        renderEngine::renderer::RenderEntities(entities, sun, camera, entityShader);
+		
 		// Finish up
-        shader.stop();
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
 
+    std::cout << "Exiting..." << std::endl;
+	
 	// Clean up
-    shader.cleanUp();
+    entityShader.cleanUp();
     renderEngine::loader::CleanUp();
 	glfwTerminate();
     return 0;

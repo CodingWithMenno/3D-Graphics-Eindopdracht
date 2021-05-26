@@ -37,7 +37,7 @@ namespace entities
 		preMouseY = mouseY;
 
 		rotation.x += mouseChangeY * SENSITIVITY;
-		rotation.x = toolbox::clamp(rotation.x, 0, 90);
+		rotation.x = toolbox::Clamp(rotation.x, 0, 90);
 	}
 
 	void Camera::calculateAngle(GLFWwindow* window)

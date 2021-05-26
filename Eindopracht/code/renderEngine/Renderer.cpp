@@ -13,6 +13,25 @@ namespace renderEngine
 		static const float FAR_PLANE = 1000.0f;
 
 		/*
+			Renders all the entities
+		 */
+		void RenderEntities(std::vector<entities::Entity*>& entities, entities::Light& sun, entities::Camera& camera,
+			shaders::StaticShader& shader)
+		{
+			shader.start();
+			shader.loadSkyColor(SKY_COLOR);
+			shader.loadLight(sun);
+			shader.loadViewMatrix(camera);
+
+			for (entities::Entity* entity : entities)
+			{
+				Render(*entity, shader);
+			}
+			
+			shader.stop();
+		}
+
+		/*
 			This function will load the projectionMatrix into the shader
 		 */
 		void Init(shaders::StaticShader& shader)
@@ -58,7 +77,7 @@ namespace renderEngine
 			glEnableVertexAttribArray(2);
 
 			// Load the transformation of the model into the shader
-			const glm::mat4 modelMatrix = toolbox::createModelMatrix(entity.getPosition(), entity.getRotation(), entity.getScale());
+			const glm::mat4 modelMatrix = toolbox::CreateModelMatrix(entity.getPosition(), entity.getRotation(), entity.getScale());
 			shader.loadModelMatrix(modelMatrix);
 			shader.loadShineVariables(texture.shineDamper, texture.reflectivity);
 			

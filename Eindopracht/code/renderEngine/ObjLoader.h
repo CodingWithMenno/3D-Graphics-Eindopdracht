@@ -5,5 +5,5 @@
 
 namespace renderEngine
 {
-	models::RawModel  LoadObjModel(std::string fileName);
+	models::RawModel LoadObjModel(std::string fileName);
 }

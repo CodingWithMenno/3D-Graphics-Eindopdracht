@@ -6,14 +6,8 @@
 #include "Loader.h"
 #include "ObjLoader.h"
 
-/*
- * Grotendeels van deze functies zijn gemaakt door:
- * https://github.com/Hopson97/ThinMatrix-OpenGL-Engine/blob/master/Source/Render_Engine/OBJLoader.cpp
- */
-
 namespace renderEngine
 {
-
     static void split(const std::string& s, char delim, std::vector<std::string>& elems)
     {
         std::stringstream ss;

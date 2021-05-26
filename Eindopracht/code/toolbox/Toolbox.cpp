@@ -3,7 +3,7 @@
 
 namespace toolbox
 {
-	glm::mat4 createModelMatrix(glm::vec3 translation, glm::vec3 rotation, float scale)
+	glm::mat4 CreateModelMatrix(glm::vec3 translation, glm::vec3 rotation, float scale)
 	{
 		glm::mat4 matrix(1.0f);
 		matrix = glm::translate(matrix, translation);
@@ -14,7 +14,7 @@ namespace toolbox
 		return matrix;
 	}
 
-	glm::mat4 createViewMatrix(entities::Camera& camera)
+	glm::mat4 CreateViewMatrix(entities::Camera& camera)
 	{
 		glm::mat4 matrix(1.0f);
 		matrix = glm::rotate(matrix, glm::radians(camera.getRotation().x), glm::vec3(1, 0, 0));
@@ -25,7 +25,7 @@ namespace toolbox
 		return matrix;
 	}
 
-	float clamp(float value, float min, float max)
+	float Clamp(float value, float min, float max)
 	{
 		return std::max(min, std::min(value, max));
 	}
