@@ -2,7 +2,9 @@
 
 #include <vector>
 #include "../entities/Entity.h"
-#include "../shaders/StaticShader.h"
+#include "../water/WaterTile.h"
+#include "../shaders/EntityShader.h"
+#include "../shaders/WaterShader.h"
 
 namespace renderEngine
 {
@@ -11,14 +13,9 @@ namespace renderEngine
 		static const glm::vec3 SKY_COLOR = { 0.5f, 0.8f, 0.9f };
 
 		/*
-			Generic function to render all the entities (makes the code cleaner and easier to use).
-		 */
-		void RenderEntities(std::vector<entities::Entity*>& entities, entities::Light& sun, entities::Camera& camera, shaders::StaticShader& shader);
-
-		/*
 			Call this function when starting the program
 		 */
-		void Init(shaders::StaticShader& shader);
+		void Init(shaders::EntityShader& entityShader, shaders::WaterShader& waterShader);
 		
 		/*
 			Call this function before rendering. 
@@ -26,8 +23,19 @@ namespace renderEngine
 		void Prepare();
 
 		/*
+			Generic function to render all the entities (makes the code cleaner and easier to use).
+		 */
+		void RenderEntities(std::vector<entities::Entity*>& entities, entities::Light& sun, entities::Camera& camera, shaders::EntityShader& shader);
+
+		
+		/*
 			Call this function when wanting to render an entity to the screen.
 		*/
-		void Render(entities::Entity& entity, shaders::StaticShader& shader);
+		void Render(entities::Entity& entity, shaders::EntityShader& shader);
+
+		/*
+			Call this function to render a water tile on the screen
+		 */
+		void Render(water::WaterTile& waterTile, entities::Camera& camera, shaders::WaterShader& shader);
 	}
 }

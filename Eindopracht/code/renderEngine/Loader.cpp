@@ -28,6 +28,14 @@ namespace renderEngine
 			return { vaoID, static_cast<int>(indices.size()) };
 		}
 
+		models::RawModel LoadToVAO(std::vector<float>& positions, int dimensions)
+		{
+			GLuint vaoID = createVAO();
+			storeDataInAttributeList(0, dimensions, positions);
+			glBindVertexArray(0);
+			return { vaoID, static_cast<int>(positions.size() / dimensions) };
+		}
+
 		/*
 			Loads an image as texture into openGL
 		 */

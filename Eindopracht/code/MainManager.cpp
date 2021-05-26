@@ -12,8 +12,9 @@
 #include "renderEngine/Loader.h"
 #include "renderEngine/ObjLoader.h"
 #include "renderEngine/Renderer.h"
-#include "shaders/StaticShader.h"
+#include "shaders/EntityShader.h"
 #include "toolbox/Toolbox.h"
+#include "water/WaterFrameBuffer.h"
 
 #pragma comment(lib, "glfw3.lib")
 #pragma comment(lib, "glew32s.lib")
@@ -49,6 +50,7 @@ int main(void)
 
     std::cout << "Loading..." << std::endl;
 
+	// Entities
     std::vector<entities::Entity*> entities;
 	
     models::RawModel groundRawModel = renderEngine::LoadObjModel("res/Ground.obj");
@@ -66,11 +68,20 @@ int main(void)
     entities::Light sun(glm::vec3(500, 1000, -7000), glm::vec3(2.2, 2.2, 1));
 	
     entities::Camera camera(player);
+
 	
-    shaders::StaticShader entityShader;
+    // Water
+    water::WaterTile waterTile = { glm::vec3(0, 23, 0), 80 };
+    water::frameBuffer::Init();
+	
+	
+    shaders::WaterShader waterShader;
+    waterShader.init();
+
+    shaders::EntityShader entityShader;
     entityShader.init();
 	
-    renderEngine::renderer::Init(entityShader);
+    renderEngine::renderer::Init(entityShader, waterShader);
 
     std::cout << "Ready" << std::endl;
 	
@@ -84,9 +95,14 @@ int main(void)
         player.move(window, delta);
 
 		// Render
+        water::frameBuffer::BindReflectionFBO();
         renderEngine::renderer::Prepare();
-
         renderEngine::renderer::RenderEntities(entities, sun, camera, entityShader);
+        water::frameBuffer::UnbindCurrentFBO();
+		
+        renderEngine::renderer::Prepare();
+        renderEngine::renderer::RenderEntities(entities, sun, camera, entityShader);
+        renderEngine::renderer::Render(waterTile, camera, waterShader);
 		
 		// Finish up
 		glfwSwapBuffers(window);
@@ -97,6 +113,8 @@ int main(void)
 	
 	// Clean up
     entityShader.cleanUp();
+    waterShader.cleanUp();
+    water::frameBuffer::CleanUp();
     renderEngine::loader::CleanUp();
 	glfwTerminate();
     return 0;

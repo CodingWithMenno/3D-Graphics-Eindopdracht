@@ -163,9 +163,11 @@
     <ClCompile Include="code\renderEngine\ObjLoader.cpp" />
     <ClCompile Include="code\renderEngine\Renderer.cpp" />
     <ClCompile Include="code\shaders\ShaderProgram.cpp" />
-    <ClCompile Include="code\shaders\StaticShader.cpp" />
+    <ClCompile Include="code\shaders\EntityShader.cpp" />
+    <ClCompile Include="code\shaders\WaterShader.cpp" />
     <ClCompile Include="code\toolbox\Toolbox.cpp" />
     <ClCompile Include="code\entities\Entity.cpp" />
+    <ClCompile Include="code\water\WaterFrameBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\entities\Camera.h" />
@@ -176,10 +178,13 @@
     <ClInclude Include="code\renderEngine\ObjLoader.h" />
     <ClInclude Include="code\renderEngine\Renderer.h" />
     <ClInclude Include="code\shaders\ShaderProgram.h" />
-    <ClInclude Include="code\shaders\StaticShader.h" />
+    <ClInclude Include="code\shaders\EntityShader.h" />
+    <ClInclude Include="code\shaders\WaterShader.h" />
     <ClInclude Include="code\stb_image.h" />
     <ClInclude Include="code\toolbox\Toolbox.h" />
     <ClInclude Include="code\entities\Entity.h" />
+    <ClInclude Include="code\water\WaterFrameBuffer.h" />
+    <ClInclude Include="code\water\WaterTile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,4 +1,4 @@
-#include "StaticShader.h"
+#include "EntityShader.h"
 #include "../toolbox/Toolbox.h"
 
 namespace shaders
@@ -104,44 +104,43 @@ namespace shaders
 	)";
 	
 	
-	StaticShader::StaticShader(): ShaderProgram(vertexShader, fragmentShader)
-	{
-	}
+	EntityShader::EntityShader(): ShaderProgram(vertexShader, fragmentShader)
+	{ }
 
-	void StaticShader::loadModelMatrix(const glm::mat4& matrix) const
+	void EntityShader::loadModelMatrix(const glm::mat4& matrix) const
 	{
 		loadMatrix(location_modelMatrix, matrix);
 	}
 
-	void StaticShader::loadProjectionMatrix(const glm::mat4& projection) const
+	void EntityShader::loadProjectionMatrix(const glm::mat4& projection) const
 	{
 		loadMatrix(location_projectionMatrix, projection);
 	}
 
-	void StaticShader::loadViewMatrix(entities::Camera& camera) const
+	void EntityShader::loadViewMatrix(entities::Camera& camera) const
 	{
 		const glm::mat4 viewMatrix = toolbox::CreateViewMatrix(camera);
 		loadMatrix(location_viewMatrix, viewMatrix);
 	}
 
-	void StaticShader::loadLight(entities::Light& light) const
+	void EntityShader::loadLight(entities::Light& light) const
 	{
 		loadVector(location_lightPosition, light.getPosition());
 		loadVector(location_lightColor, light.getColor());
 	}
 
-	void StaticShader::loadShineVariables(float shineDamper, float reflectivity) const
+	void EntityShader::loadShineVariables(float shineDamper, float reflectivity) const
 	{
 		loadFloat(location_shineDamper, shineDamper);
 		loadFloat(location_reflectivity, reflectivity);
 	}
 
-	void StaticShader::loadSkyColor(glm::vec3 color) const
+	void EntityShader::loadSkyColor(glm::vec3 color) const
 	{
 		loadVector(location_skyColor, color);
 	}
 
-	void StaticShader::setAttributes() const
+	void EntityShader::setAttributes() const
 	{
 		// Load the position VBO and textureCoords VBO from the VAO into the shader "in" variables
 		setAttribute(0, "position");
@@ -149,7 +148,7 @@ namespace shaders
 		setAttribute(2, "normal");
 	}
 
-	void StaticShader::getAllUniformLocations()
+	void EntityShader::getAllUniformLocations()
 	{
 		// Get the locations from the uniform variables from the shaders
 		location_modelMatrix = getUniformLocation("modelMatrix");

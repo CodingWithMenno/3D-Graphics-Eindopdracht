@@ -11,7 +11,7 @@
 
 namespace shaders
 {	
-	class StaticShader : public ShaderProgram
+	class EntityShader : public ShaderProgram
 	{
 	private:
 		GLuint location_modelMatrix;
@@ -24,7 +24,7 @@ namespace shaders
 		GLuint location_skyColor;
 		
 	public:
-		StaticShader();
+		EntityShader();
 
 		void loadModelMatrix(const glm::mat4& matrix) const;
 		void loadProjectionMatrix(const glm::mat4& projection) const;
