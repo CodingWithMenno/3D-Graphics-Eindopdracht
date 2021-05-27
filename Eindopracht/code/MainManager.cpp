@@ -106,7 +106,7 @@ int main(void)
         camera.getPositionRef().y -= distance;
         camera.invertPitch();
         renderEngine::renderer::Prepare();
-        renderEngine::renderer::RenderEntities(entities, sun, camera, glm::vec4(0, 1, 0, -waterTile.position.y), entityShader);
+        renderEngine::renderer::RenderEntities(entities, sun, camera, glm::vec4(0, 1, 0, -waterTile.position.y + 0.2f), entityShader);
         camera.getPositionRef().y += distance;
         camera.invertPitch();
 		

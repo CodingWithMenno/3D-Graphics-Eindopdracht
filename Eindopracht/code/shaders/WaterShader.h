@@ -12,6 +12,8 @@ namespace shaders
 		GLuint location_modelMatrix;
 		GLuint location_projectionMatrix;
 		GLuint location_viewMatrix;
+		GLuint location_reflectTexture;
+		GLuint location_refractTexture;
 
 	public:
 		WaterShader();
@@ -20,6 +22,8 @@ namespace shaders
 		void loadProjectionMatrix(const glm::mat4& projection) const;
 		void loadViewMatrix(entities::Camera& camera) const;
 
+		void connectTextures();
+	
 	protected:
 		void setAttributes() const override;
 		void getAllUniformLocations() override;

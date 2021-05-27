@@ -60,6 +60,11 @@ namespace shaders
 		glUniform1f(location, value);
 	}
 
+	void ShaderProgram::loadInt(GLuint location, GLint value) const
+	{
+		glUniform1i(location, value);
+	}
+
 	void ShaderProgram::loadVector(GLuint location, glm::vec3 vector) const
 	{
 		glUniform3fv(location, 1, glm::value_ptr(vector));

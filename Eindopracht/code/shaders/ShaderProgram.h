@@ -38,6 +38,7 @@ namespace shaders
 
 		// Loads value's (uniform variables) into the shader
 		void loadFloat(GLuint location, GLfloat value) const;
+		void loadInt(GLuint location, GLint value) const;
 		void loadVector(GLuint location, glm::vec3 vector) const;
 		void loadVector(GLuint location, glm::vec4 vector) const;
 		void loadMatrix(GLuint location, glm::mat4 matrix) const;

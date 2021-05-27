@@ -2,6 +2,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "../models/Model.h"
 #include "../toolbox/Toolbox.h"
+#include "../water/WaterFrameBuffer.h"
 #include "Loader.h"
 #include "Renderer.h"
 
@@ -33,6 +34,7 @@ namespace renderEngine
 			entityShader.stop();
 
 			waterShader.start();
+			waterShader.connectTextures();
 			waterShader.loadProjectionMatrix(projectionMatrix);
 			waterShader.stop();
 
@@ -118,6 +120,14 @@ namespace renderEngine
 			glBindVertexArray(waterQuad.vaoID);
 			glEnableVertexAttribArray(0);
 
+			// Bind the reflection texture into the shader
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, water::frameBuffer::GetReflectionTexture());
+
+			// Bind the refraction texture into the shader
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, water::frameBuffer::GetRefractionTexture());
+			
 			// Load the model matrix into the shader
 			const glm::mat4 modelMatrix = toolbox::CreateModelMatrix(waterTile.position, glm::vec3(0, 0, 0), waterTile.size);
 			shader.loadModelMatrix(modelMatrix);
