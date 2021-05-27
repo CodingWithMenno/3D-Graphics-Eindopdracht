@@ -22,6 +22,7 @@ namespace shaders
 		GLuint location_shineDamper;
 		GLuint location_reflectivity;
 		GLuint location_skyColor;
+		GLuint location_plane;
 		
 	public:
 		EntityShader();
@@ -34,6 +35,8 @@ namespace shaders
 		void loadShineVariables(float shineDamper, float reflectivity) const;
 
 		void loadSkyColor(glm::vec3 color) const;
+
+		void loadClippingPlane(glm::vec4 plane) const;
 			
 	protected:
 		void setAttributes() const override;

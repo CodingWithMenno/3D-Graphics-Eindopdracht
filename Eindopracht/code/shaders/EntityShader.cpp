@@ -26,6 +26,9 @@ namespace shaders
 	uniform mat4 viewMatrix;
 	uniform vec3 lightPosition;
 
+	// Clipping plane variable (for the water)
+	uniform vec4 plane;
+	
 	// Fog variables
 	const float density = 0.0045;
 	const float gradient = 4.0;
@@ -35,6 +38,8 @@ namespace shaders
 		// Calculate the real position of the vertex (after rotation and scaling)
 		vec4 worldPosition = modelMatrix * vec4(position, 1.0);
 
+		gl_ClipDistance[0] = dot(worldPosition, plane);
+	
 		vec4 positionRelToCam = viewMatrix * worldPosition;
 	
 		// Tell OpenGL where to render the vertex
@@ -140,6 +145,11 @@ namespace shaders
 		loadVector(location_skyColor, color);
 	}
 
+	void EntityShader::loadClippingPlane(glm::vec4 plane) const
+	{
+		loadVector(location_plane, plane);
+	}
+
 	void EntityShader::setAttributes() const
 	{
 		// Load the position VBO and textureCoords VBO from the VAO into the shader "in" variables
@@ -159,5 +169,6 @@ namespace shaders
 		location_shineDamper = getUniformLocation("shineDamper");
 		location_reflectivity = getUniformLocation("reflectivity");
 		location_skyColor = getUniformLocation("skyColor");
+		location_plane = getUniformLocation("plane");
 	}
 }

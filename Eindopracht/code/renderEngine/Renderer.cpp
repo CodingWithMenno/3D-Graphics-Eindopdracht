@@ -55,9 +55,10 @@ namespace renderEngine
 			Renders all the entities
 		 */
 		void RenderEntities(std::vector<entities::Entity*>& entities, entities::Light& sun, entities::Camera& camera,
-			shaders::EntityShader& shader)
+			glm::vec4 clippingPlane, shaders::EntityShader& shader)
 		{
 			shader.start();
+			shader.loadClippingPlane(clippingPlane);
 			shader.loadSkyColor(SKY_COLOR);
 			shader.loadLight(sun);
 			shader.loadViewMatrix(camera);

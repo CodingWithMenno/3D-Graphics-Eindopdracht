@@ -62,8 +62,12 @@ namespace shaders
 
 	void ShaderProgram::loadVector(GLuint location, glm::vec3 vector) const
 	{
-		// glUniform3f(location, vector.x, vector.y, vector.z);
 		glUniform3fv(location, 1, glm::value_ptr(vector));
+	}
+
+	void ShaderProgram::loadVector(GLuint location, glm::vec4 vector) const
+	{
+		glUniform4fv(location, 1, glm::value_ptr(vector));
 	}
 
 	void ShaderProgram::loadMatrix(GLuint location, glm::mat4 matrix) const

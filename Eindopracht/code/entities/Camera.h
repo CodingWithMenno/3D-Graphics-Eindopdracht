@@ -23,8 +23,11 @@ namespace entities
 		Camera(Entity& entityToFollow);
 
 		void move(GLFWwindow* window, const double delta);
+
+		void invertPitch() { rotation.x = -rotation.x; }
 		
-		inline glm::vec3 getPosition() const{ return position; }
+		inline glm::vec3 getPosition() const { return position; }
+		inline glm::vec3& getPositionRef() { return position; }
 		inline glm::vec3 getRotation() const{ return rotation; }
 
 	private:		

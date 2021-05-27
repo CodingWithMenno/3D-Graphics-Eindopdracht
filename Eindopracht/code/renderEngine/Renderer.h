@@ -25,7 +25,7 @@ namespace renderEngine
 		/*
 			Generic function to render all the entities (makes the code cleaner and easier to use).
 		 */
-		void RenderEntities(std::vector<entities::Entity*>& entities, entities::Light& sun, entities::Camera& camera, shaders::EntityShader& shader);
+		void RenderEntities(std::vector<entities::Entity*>& entities, entities::Light& sun, entities::Camera& camera, glm::vec4 clippingPlane, shaders::EntityShader& shader);
 
 		
 		/*

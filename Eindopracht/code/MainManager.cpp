@@ -95,13 +95,31 @@ int main(void)
         player.move(window, delta);
 
 		// Render
-        water::frameBuffer::BindReflectionFBO();
-        renderEngine::renderer::Prepare();
-        renderEngine::renderer::RenderEntities(entities, sun, camera, entityShader);
-        water::frameBuffer::UnbindCurrentFBO();
 		
+		// Enable clipping plane 0
+		// (so only everything above the water will get reflect and only everything under the water will get refracted)
+        glEnable(GL_CLIP_DISTANCE0);
+
+		// Render reflection of the water
+        water::frameBuffer::BindReflectionFBO();
+        float distance = 2 * (camera.getPosition().y - waterTile.position.y);
+        camera.getPositionRef().y -= distance;
+        camera.invertPitch();
         renderEngine::renderer::Prepare();
-        renderEngine::renderer::RenderEntities(entities, sun, camera, entityShader);
+        renderEngine::renderer::RenderEntities(entities, sun, camera, glm::vec4(0, 1, 0, -waterTile.position.y), entityShader);
+        camera.getPositionRef().y += distance;
+        camera.invertPitch();
+		
+		// Render refraction of the water
+        water::frameBuffer::BindRefractionFBO();
+        renderEngine::renderer::Prepare();
+        renderEngine::renderer::RenderEntities(entities, sun, camera, glm::vec4(0, -1, 0, waterTile.position.y), entityShader);
+
+		// Render the normal scene
+        glDisable(GL_CLIP_DISTANCE0);
+		water::frameBuffer::UnbindCurrentFBO();
+        renderEngine::renderer::Prepare();
+        renderEngine::renderer::RenderEntities(entities, sun, camera, glm::vec4(0, 0, 0, 0), entityShader);
         renderEngine::renderer::Render(waterTile, camera, waterShader);
 		
 		// Finish up
