@@ -27,6 +27,7 @@ namespace models
 		GLuint textureID;
 		float shineDamper = 1;
 		float reflectivity = 0;
+		float emissionFactor = 0;
 	};
 	
 	/*

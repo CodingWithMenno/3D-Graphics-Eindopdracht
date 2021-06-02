@@ -19,7 +19,7 @@ namespace entities
 		void increasePosition(const glm::vec3& distance);
 		void increaseRotation(const glm::vec3& rotation);
 		
-		inline models::TexturedModel getModel() const{return model;}
+		inline models::TexturedModel getModel() const { return model; }
 		inline void setModel(const ::models::TexturedModel& model) { this->model = model; }
 		inline glm::vec3 getPosition() const { return position; }
 		inline void setPosition(const ::glm::vec3& position) {	this->position = position; }

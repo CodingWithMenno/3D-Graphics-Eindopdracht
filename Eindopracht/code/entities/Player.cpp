@@ -7,7 +7,7 @@ namespace entities
 		: Entity(model, position, glm::vec3(0, 0, 0), scale)
 	{ }
 
-	void Player::move(GLFWwindow* window, const double delta)
+	void Player::update(GLFWwindow* window, const double delta)
 	{
 		checkInputs(window);
 		increaseRotation(glm::vec3(0, currentTurnSpeed * delta, 0));

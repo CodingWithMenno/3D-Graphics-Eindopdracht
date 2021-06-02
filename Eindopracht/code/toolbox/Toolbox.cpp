@@ -1,6 +1,8 @@
 #include <algorithm>
 #include "Toolbox.h"
 
+#include <ctime>
+
 namespace toolbox
 {
 	glm::mat4 CreateModelMatrix(glm::vec3 translation, glm::vec3 rotation, float scale)
@@ -28,5 +30,16 @@ namespace toolbox
 	float Clamp(float value, float min, float max)
 	{
 		return std::max(min, std::min(value, max));
+	}
+
+	int Random(const int min, const int max)
+	{
+		static bool first = true;
+		if (first)
+		{
+			srand(time(0));
+			first = false;
+		}
+		return min + rand() % ((max + 1) - min);
 	}
 }

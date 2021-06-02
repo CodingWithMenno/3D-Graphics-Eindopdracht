@@ -22,7 +22,7 @@ namespace entities
 	public:
 		Camera(Entity& entityToFollow);
 
-		void move(GLFWwindow* window);
+		void update(GLFWwindow* window);
 
 		void invertPitch() { rotation.x = -rotation.x; }
 		

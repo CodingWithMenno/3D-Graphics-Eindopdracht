@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 #include "../entities/Entity.h"
 #include "../water/WaterTile.h"
@@ -25,7 +26,7 @@ namespace renderEngine
 		/*
 			Generic function to render all the entities (makes the code cleaner and easier to use).
 		 */
-		void RenderEntities(std::vector<entities::Entity*>& entities, entities::Light& sun, entities::Camera& camera, glm::vec4 clippingPlane, shaders::EntityShader& shader);
+		void RenderEntities(std::vector<std::shared_ptr<entities::Entity>>& entities, entities::Light& sun, entities::Camera& camera, glm::vec4 clippingPlane, shaders::EntityShader& shader);
 
 		
 		/*

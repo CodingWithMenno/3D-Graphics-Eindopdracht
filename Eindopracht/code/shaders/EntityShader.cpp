@@ -30,8 +30,8 @@ namespace shaders
 	uniform vec4 plane;
 	
 	// Fog variables
-	const float density = 0.0035;
-	const float gradient = 4.0;
+	uniform float density;
+	const float gradient = 2.0;
 	
 	void main(void)
 	{
@@ -81,6 +81,7 @@ namespace shaders
 	uniform vec3 lightColor;
 	uniform float shineDamper;
 	uniform float reflectivity;
+	uniform float emissionFactor;
 	uniform vec3 skyColor;
 
 	void main(void)
@@ -91,7 +92,7 @@ namespace shaders
 
 		// Calculate the diffuse lighting
 		float dotDiffuse = dot(unitNormal, unitLightVector);
-		float brightness = max(dotDiffuse, 0.1);
+		float brightness = max(dotDiffuse, 0.2);
 		vec3 diffuse = brightness * lightColor;
 
 		// Calculate the specular lighting
@@ -104,7 +105,7 @@ namespace shaders
 		
 	
 		outColor = vec4(diffuse, 1.0) * texture(textureSampler, passTextureCoords) + vec4(specular, 1.0);
-		outColor = mix(vec4(skyColor, 1.0), outColor, visibility);
+		outColor = mix(vec4(skyColor, 1.0), outColor, visibility) + emissionFactor;
 	}
 	)";
 	
@@ -134,15 +135,21 @@ namespace shaders
 		loadVector(location_lightColor, light.getColor());
 	}
 
-	void EntityShader::loadShineVariables(float shineDamper, float reflectivity) const
+	void EntityShader::loadShineVariables(float shineDamper, float reflectivity, float emissionFactor) const
 	{
 		loadFloat(location_shineDamper, shineDamper);
 		loadFloat(location_reflectivity, reflectivity);
+		loadFloat(location_emissionFactor, emissionFactor);
 	}
 
 	void EntityShader::loadSkyColor(glm::vec3 color) const
 	{
 		loadVector(location_skyColor, color);
+	}
+
+	void EntityShader::loadFogDensity(float density) const
+	{
+		loadFloat(location_density, density);
 	}
 
 	void EntityShader::loadClippingPlane(glm::vec4 plane) const
@@ -168,7 +175,9 @@ namespace shaders
 		location_lightColor = getUniformLocation("lightColor");
 		location_shineDamper = getUniformLocation("shineDamper");
 		location_reflectivity = getUniformLocation("reflectivity");
+		location_emissionFactor = getUniformLocation("emissionFactor");
 		location_skyColor = getUniformLocation("skyColor");
 		location_plane = getUniformLocation("plane");
+		location_density = getUniformLocation("density");
 	}
 }

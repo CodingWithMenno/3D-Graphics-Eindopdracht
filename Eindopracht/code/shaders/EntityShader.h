@@ -21,8 +21,10 @@ namespace shaders
 		GLuint location_lightColor;
 		GLuint location_shineDamper;
 		GLuint location_reflectivity;
+		GLuint location_emissionFactor;
 		GLuint location_skyColor;
 		GLuint location_plane;
+		GLuint location_density;
 		
 	public:
 		EntityShader();
@@ -32,10 +34,11 @@ namespace shaders
 		void loadViewMatrix(entities::Camera& camera) const;
 
 		void loadLight(entities::Light& light) const;
-		void loadShineVariables(float shineDamper, float reflectivity) const;
+		void loadShineVariables(float shineDamper, float reflectivity, float emissionFactor) const;
 
 		void loadSkyColor(glm::vec3 color) const;
-
+		void loadFogDensity(float density) const;
+		
 		void loadClippingPlane(glm::vec4 plane) const;
 			
 	protected:

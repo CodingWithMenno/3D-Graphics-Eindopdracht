@@ -12,7 +12,7 @@ namespace renderEngine
 	{
 		static const float FOV = 70.0f;
 		static const float NEAR_PLANE = 0.01f;
-		static const float FAR_PLANE = 1500.0f;
+		static const float FAR_PLANE = 700.0f;
 
 		static models::RawModel waterQuad;
 
@@ -56,7 +56,7 @@ namespace renderEngine
 		/*
 			Renders all the entities
 		 */
-		void RenderEntities(std::vector<entities::Entity*>& entities, entities::Light& sun, entities::Camera& camera,
+		void RenderEntities(std::vector<std::shared_ptr<entities::Entity>>& entities, entities::Light& sun, entities::Camera& camera,
 			glm::vec4 clippingPlane, shaders::EntityShader& shader)
 		{
 			shader.start();
@@ -64,8 +64,9 @@ namespace renderEngine
 			shader.loadSkyColor(SKY_COLOR);
 			shader.loadLight(sun);
 			shader.loadViewMatrix(camera);
+			shader.loadFogDensity((2.5f / FAR_PLANE));
 
-			for (entities::Entity* entity : entities)
+			for (std::shared_ptr<entities::Entity> entity : entities)
 			{
 				Render(*entity, shader);
 			}
@@ -93,7 +94,7 @@ namespace renderEngine
 			// Load the transformation of the model into the shader
 			const glm::mat4 modelMatrix = toolbox::CreateModelMatrix(entity.getPosition(), entity.getRotation(), entity.getScale());
 			shader.loadModelMatrix(modelMatrix);
-			shader.loadShineVariables(texture.shineDamper, texture.reflectivity);
+			shader.loadShineVariables(texture.shineDamper, texture.reflectivity, texture.emissionFactor);
 			
 			// Draw the model
 			glActiveTexture(GL_TEXTURE0);

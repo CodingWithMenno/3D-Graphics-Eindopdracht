@@ -15,6 +15,7 @@
 #include "shaders/EntityShader.h"
 #include "toolbox/Toolbox.h"
 #include "water/WaterFrameBuffer.h"
+#include "entities/CloudGroup.h"
 
 #pragma comment(lib, "glfw3.lib")
 #pragma comment(lib, "glew32s.lib")
@@ -53,46 +54,44 @@ int main(void)
 
     std::cout << "Loading..." << std::endl;
 
-	// Entities
-    std::vector<entities::Entity*> entities;
+	// De scene opbouwen, ik weet het. Het ziet er niet uit
+    std::vector<std::shared_ptr<entities::Entity>> entities;
 	
     models::RawModel groundRawModel = renderEngine::LoadObjModel("res/Ground.obj");
     models::ModelTexture groundTexture = { renderEngine::loader::LoadTexture("res/Texture.png") };
     models::TexturedModel groundModel = { groundRawModel, groundTexture };
-    entities::Entity ground(groundModel, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), 30);
-    entities.push_back(&ground);
+    std::shared_ptr<entities::Entity> ground(new entities::Entity(groundModel, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), 30));
+    entities.push_back(ground);
 
     models::RawModel treeRawModel = renderEngine::LoadObjModel("res/Tree.obj");
     models::ModelTexture treeTexture = { renderEngine::loader::LoadTexture("res/TreeTexture.png") };
     models::TexturedModel treeModel = { treeRawModel, treeTexture };
-    entities.push_back(&entities::Entity(treeModel, glm::vec3(50, 27, 50), glm::vec3(0, 0, 0), 1));
-    entities.push_back(&entities::Entity(treeModel, glm::vec3(-80, 27, 10), glm::vec3(0, 45, 0), 1));
-    entities.push_back(&entities::Entity(treeModel, glm::vec3(0, 27, 80), glm::vec3(0, 180, 0), 0.7));
-    entities.push_back(&entities::Entity(treeModel, glm::vec3(-10, 27, -80), glm::vec3(0, 180, 0), 1.2));
-    entities.push_back(&entities::Entity(treeModel, glm::vec3(55, 25, -10), glm::vec3(0, 20, 0), 0.5));
-    entities.push_back(&entities::Entity(treeModel, glm::vec3(-100, 27, -100), glm::vec3(0, -70, 0), 1));
-    entities.push_back(&entities::Entity(treeModel, glm::vec3(80, 30, -90), glm::vec3(0, -120, 0), 0.7));
-
-    // models::RawModel cloudRawModel = renderEngine::LoadObjModel("res/Cloud.obj");
-    // models::ModelTexture cloudTexture = { renderEngine::loader::LoadTexture("res/Texture.png") };
-    // models::TexturedModel cloudModel = { cloudRawModel, cloudTexture };
-    // entities.push_back(&entities::Entity(cloudModel, glm::vec3(0, 100, 0), glm::vec3(0, 0, 0), 0.1f));
+    entities.push_back(std::make_shared<entities::Entity>(treeModel, glm::vec3(50, 27, 50), glm::vec3(0, 0, 0), 1));
+    entities.push_back(std::make_shared<entities::Entity>(treeModel, glm::vec3(-80, 27, 10), glm::vec3(0, 45, 0), 1));
+    entities.push_back(std::make_shared<entities::Entity>(treeModel, glm::vec3(0, 27, 80), glm::vec3(0, 180, 0), 0.7));
+    entities.push_back(std::make_shared<entities::Entity>(treeModel, glm::vec3(-10, 27, -80), glm::vec3(0, 180, 0), 1.2));
+    entities.push_back(std::make_shared<entities::Entity>(treeModel, glm::vec3(55, 25, -10), glm::vec3(0, 20, 0), 0.5));
+    entities.push_back(std::make_shared<entities::Entity>(treeModel, glm::vec3(-100, 27, -100), glm::vec3(0, -70, 0), 1));
+    entities.push_back(std::make_shared<entities::Entity>(treeModel, glm::vec3(80, 30, -90), glm::vec3(0, -120, 0), 0.7));
 	
     models::RawModel playerRawModel = renderEngine::LoadObjModel("res/Bee.obj");
     models::ModelTexture playerTexture = { renderEngine::loader::LoadTexture("res/Texture.png") };
     models::TexturedModel playerModel = { playerRawModel, playerTexture };
-    entities::Player player(playerModel, glm::vec3(0, 35, 0), 1);
-    entities.push_back(&player);
+    std::shared_ptr <entities::Player> player(new entities::Player(playerModel, glm::vec3(0, 35, 0), 1));
+    entities.push_back(player);
 
+    entities::CloudGroup cloudGroup(glm::vec3(0, 100, 0), glm::vec2(230, 230), 7);
+	
     models::RawModel sunRawModel = renderEngine::LoadObjModel("res/Sun.obj");
     models::ModelTexture sunTexture = { renderEngine::loader::LoadTexture("res/Texture.png") };
+    sunTexture.emissionFactor = 0.1f;
     models::TexturedModel sunModel = { sunRawModel, sunTexture };
-    entities::Entity sunEntity(sunModel, glm::vec3(110, 150, -200), glm::vec3(25, -23, 0), 10);
-    entities.push_back(&sunEntity);
+    std::shared_ptr <entities::Entity> sunEntity(new entities::Entity(sunModel, glm::vec3(110, 150, -200), glm::vec3(25, -23, 0), 10));
+    entities.push_back(sunEntity);
 
     entities::Light sun(glm::vec3(100, 140, -170), glm::vec3(1.7, 1.2, 0.4));
 	
-    entities::Camera camera(player);
+    entities::Camera camera(*player);
 
 	
     // Water
@@ -116,10 +115,17 @@ int main(void)
         // Update
         const double delta = updateDelta();
 
-        camera.move(window);
-        player.move(window, delta);
+        camera.update(window);
+        player->update(window, delta);
+        cloudGroup.update(delta);
 
 		// Render
+
+		// Get all the entities
+        std::vector<std::shared_ptr<entities::Entity>> entitiesToRender;
+        entitiesToRender.insert(entitiesToRender.begin(), entities.begin(), entities.end());
+        std::vector<std::shared_ptr<entities::Entity>> clouds = cloudGroup.GetEntities();
+		entitiesToRender.insert(entitiesToRender.begin(), clouds.begin(), clouds.end());
 		
 		// Enable clipping plane 0
 		// (so only everything above the water will get reflect and only everything under the water will get refracted)
@@ -131,20 +137,20 @@ int main(void)
         camera.getPositionRef().y -= distance;
         camera.invertPitch();
         renderEngine::renderer::Prepare();
-        renderEngine::renderer::RenderEntities(entities, sun, camera, glm::vec4(0, 1, 0, -waterTile.position.y + 0.2f), entityShader);
+        renderEngine::renderer::RenderEntities(entitiesToRender, sun, camera, glm::vec4(0, 1, 0, -waterTile.position.y + 0.2f), entityShader);
         camera.getPositionRef().y += distance;
         camera.invertPitch();
 		
 		// Render refraction of the water
         water::frameBuffer::BindRefractionFBO();
         renderEngine::renderer::Prepare();
-        renderEngine::renderer::RenderEntities(entities, sun, camera, glm::vec4(0, -1, 0, waterTile.position.y), entityShader);
+        renderEngine::renderer::RenderEntities(entitiesToRender, sun, camera, glm::vec4(0, -1, 0, waterTile.position.y), entityShader);
 
 		// Render the normal scene
         glDisable(GL_CLIP_DISTANCE0);
 		water::frameBuffer::UnbindCurrentFBO();
         renderEngine::renderer::Prepare();
-        renderEngine::renderer::RenderEntities(entities, sun, camera, glm::vec4(0, 0, 0, 0), entityShader);
+        renderEngine::renderer::RenderEntities(entitiesToRender, sun, camera, glm::vec4(0, 0, 0, 0), entityShader);
         renderEngine::renderer::Render(waterTile, camera, sun, waterShader);
 		
 		// Finish up

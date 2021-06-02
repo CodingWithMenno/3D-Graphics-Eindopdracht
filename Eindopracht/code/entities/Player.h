@@ -18,7 +18,7 @@ namespace entities
 	public:
 		Player(const models::TexturedModel& model, const glm::vec3& position, float scale);
 
-		void move(GLFWwindow* window, const double delta);
+		void update(GLFWwindow* window, const double delta);
 
 	private:
 		void checkInputs(GLFWwindow* window);

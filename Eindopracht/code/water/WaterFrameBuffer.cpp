@@ -16,12 +16,12 @@ namespace water
 		static GLuint createDepthBufferAttachment(int width, int height);
 		
 		// The resolution of the water reflection texture
-		static const int REFLECTION_WIDTH = 1280;
-		static const int REFLECTION_HEIGHT = 720;
+		static const int REFLECTION_WIDTH = 1920;
+		static const int REFLECTION_HEIGHT = 1080;
 
 		// The resolution of the water refraction texture
-		static const int REFRACTION_WIDTH = 1280;
-		static const int REFRACTION_HEIGHT = 720;
+		static const int REFRACTION_WIDTH = 1920;
+		static const int REFRACTION_HEIGHT = 1080;
 
 		static GLuint reflectionFrameBuffer;
 		static GLuint reflectionTexture;

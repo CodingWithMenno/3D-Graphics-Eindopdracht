@@ -9,7 +9,7 @@ namespace entities
 		rotation = { 0, 0, 0 };
 	}
 
-	void Camera::move(GLFWwindow* window)
+	void Camera::update(GLFWwindow* window)
 	{
 		calculatePitch(window);
 		calculateAngle(window);
