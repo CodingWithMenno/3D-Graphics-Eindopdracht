@@ -36,6 +36,6 @@ namespace renderEngine
 		/*
 			Call this function to render a water tile on the screen
 		 */
-		void Render(water::WaterTile& waterTile, entities::Camera& camera, shaders::WaterShader& shader);
+		void Render(water::WaterTile& waterTile, entities::Camera& camera, entities::Light& sun, shaders::WaterShader& shader);
 	}
 }

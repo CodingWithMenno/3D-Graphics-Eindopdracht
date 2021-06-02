@@ -3,6 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "ShaderProgram.h"
 #include "../entities/Camera.h"
+#include "../entities/Light.h"
 
 namespace shaders
 {
@@ -14,6 +15,8 @@ namespace shaders
 		GLuint location_viewMatrix;
 		GLuint location_reflectTexture;
 		GLuint location_refractTexture;
+		GLuint location_lightColor;
+		GLuint location_lightPosition;
 
 	public:
 		WaterShader();
@@ -22,6 +25,8 @@ namespace shaders
 		void loadProjectionMatrix(const glm::mat4& projection) const;
 		void loadViewMatrix(entities::Camera& camera) const;
 
+		void loadLight(const entities::Light& sun);
+		
 		void connectTextures();
 	
 	protected:

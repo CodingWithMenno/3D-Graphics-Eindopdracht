@@ -30,7 +30,10 @@ int main(void)
 	#pragma region OPENGL_SETTINGS
     if (!glfwInit())
         throw "Could not inditialize glwf";
+	// Turn on anti MSAA x4
+    glfwWindowHint(GLFW_SAMPLES, 4);
     window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGT, "Eindopdracht - Menno Bil", NULL, NULL);
+    glEnable(GL_MULTISAMPLE);
     if (!window)
     {
         glfwTerminate();
@@ -58,6 +61,22 @@ int main(void)
     models::TexturedModel groundModel = { groundRawModel, groundTexture };
     entities::Entity ground(groundModel, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), 30);
     entities.push_back(&ground);
+
+    models::RawModel treeRawModel = renderEngine::LoadObjModel("res/Tree.obj");
+    models::ModelTexture treeTexture = { renderEngine::loader::LoadTexture("res/TreeTexture.png") };
+    models::TexturedModel treeModel = { treeRawModel, treeTexture };
+    entities.push_back(&entities::Entity(treeModel, glm::vec3(50, 27, 50), glm::vec3(0, 0, 0), 1));
+    entities.push_back(&entities::Entity(treeModel, glm::vec3(-80, 27, 10), glm::vec3(0, 45, 0), 1));
+    entities.push_back(&entities::Entity(treeModel, glm::vec3(0, 27, 80), glm::vec3(0, 180, 0), 0.7));
+    entities.push_back(&entities::Entity(treeModel, glm::vec3(-10, 27, -80), glm::vec3(0, 180, 0), 1.2));
+    entities.push_back(&entities::Entity(treeModel, glm::vec3(55, 25, -10), glm::vec3(0, 20, 0), 0.5));
+    entities.push_back(&entities::Entity(treeModel, glm::vec3(-100, 27, -100), glm::vec3(0, -70, 0), 1));
+    entities.push_back(&entities::Entity(treeModel, glm::vec3(80, 30, -90), glm::vec3(0, -120, 0), 0.7));
+
+    // models::RawModel cloudRawModel = renderEngine::LoadObjModel("res/Cloud.obj");
+    // models::ModelTexture cloudTexture = { renderEngine::loader::LoadTexture("res/Texture.png") };
+    // models::TexturedModel cloudModel = { cloudRawModel, cloudTexture };
+    // entities.push_back(&entities::Entity(cloudModel, glm::vec3(0, 100, 0), glm::vec3(0, 0, 0), 0.1f));
 	
     models::RawModel playerRawModel = renderEngine::LoadObjModel("res/Bee.obj");
     models::ModelTexture playerTexture = { renderEngine::loader::LoadTexture("res/Texture.png") };
@@ -97,7 +116,7 @@ int main(void)
         // Update
         const double delta = updateDelta();
 
-        camera.move(window, delta);
+        camera.move(window);
         player.move(window, delta);
 
 		// Render
@@ -126,7 +145,7 @@ int main(void)
 		water::frameBuffer::UnbindCurrentFBO();
         renderEngine::renderer::Prepare();
         renderEngine::renderer::RenderEntities(entities, sun, camera, glm::vec4(0, 0, 0, 0), entityShader);
-        renderEngine::renderer::Render(waterTile, camera, waterShader);
+        renderEngine::renderer::Render(waterTile, camera, sun, waterShader);
 		
 		// Finish up
 		glfwSwapBuffers(window);

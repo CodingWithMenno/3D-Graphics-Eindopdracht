@@ -157,6 +157,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="code\entities\Camera.cpp" />
+    <ClCompile Include="code\entities\CloudGroup.cpp" />
     <ClCompile Include="code\entities\Player.cpp" />
     <ClCompile Include="code\renderEngine\Loader.cpp" />
     <ClCompile Include="code\MainManager.cpp" />
@@ -171,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\entities\Camera.h" />
+    <ClInclude Include="code\entities\CloudGroup.h" />
     <ClInclude Include="code\entities\Light.h" />
     <ClInclude Include="code\entities\Player.h" />
     <ClInclude Include="code\renderEngine\Loader.h" />

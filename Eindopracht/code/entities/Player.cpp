@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "../toolbox/Toolbox.h"
 
 namespace entities
 {
@@ -15,6 +16,9 @@ namespace entities
 		float dz = distance * glm::cos(glm::radians(rotation.y));
 		float dx = distance * glm::sin(glm::radians(rotation.y));
 		increasePosition(glm::vec3(dx, 0, dz));
+
+		position.x = toolbox::Clamp(position.x, -100, 100);
+		position.z = toolbox::Clamp(position.z, -100, 100);
 	}
 
 	void Player::checkInputs(GLFWwindow* window)

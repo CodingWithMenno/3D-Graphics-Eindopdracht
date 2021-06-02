@@ -12,7 +12,7 @@ namespace renderEngine
 	{
 		static const float FOV = 70.0f;
 		static const float NEAR_PLANE = 0.01f;
-		static const float FAR_PLANE = 1000.0f;
+		static const float FAR_PLANE = 1500.0f;
 
 		static models::RawModel waterQuad;
 
@@ -110,11 +110,12 @@ namespace renderEngine
 		/*
 			This function will Render a water tile on the screen.
 		*/
-		void Render(water::WaterTile& waterTile, entities::Camera& camera, shaders::WaterShader& shader)
+		void Render(water::WaterTile& waterTile, entities::Camera& camera, entities::Light& sun, shaders::WaterShader& shader)
 		{
-			// Start the render and load the camera's perspective into the shader
+			// Start the render and load the camera's perspective and sun into the shader
 			shader.start();
 			shader.loadViewMatrix(camera);
+			shader.loadLight(sun);
 
 			// Load up the model and positions VBO
 			glBindVertexArray(waterQuad.vaoID);

@@ -30,7 +30,7 @@ namespace shaders
 	uniform vec4 plane;
 	
 	// Fog variables
-	const float density = 0.0045;
+	const float density = 0.0035;
 	const float gradient = 4.0;
 	
 	void main(void)

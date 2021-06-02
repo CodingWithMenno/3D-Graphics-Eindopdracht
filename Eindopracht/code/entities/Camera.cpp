@@ -9,7 +9,7 @@ namespace entities
 		rotation = { 0, 0, 0 };
 	}
 
-	void Camera::move(GLFWwindow* window, const double delta)
+	void Camera::move(GLFWwindow* window)
 	{
 		calculatePitch(window);
 		calculateAngle(window);
@@ -37,7 +37,7 @@ namespace entities
 		preMouseY = mouseY;
 
 		rotation.x += mouseChangeY * SENSITIVITY;
-		rotation.x = toolbox::Clamp(rotation.x, 0, 90);
+		rotation.x = toolbox::Clamp(rotation.x, -10, 90);
 	}
 
 	void Camera::calculateAngle(GLFWwindow* window)

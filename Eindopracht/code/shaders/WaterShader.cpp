@@ -10,10 +10,12 @@ namespace shaders
 
 	out vec4 clipSpace;
 	out vec3 toCameraVector;
+	out vec3 fromLightVector;
 	
 	uniform mat4 projectionMatrix;
 	uniform mat4 viewMatrix;
 	uniform mat4 modelMatrix;
+	uniform vec3 lightPosition;
 
 	void main(void)
 	{	
@@ -23,6 +25,8 @@ namespace shaders
 		gl_Position = clipSpace;
 
 		toCameraVector = (inverse(viewMatrix) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition.xyz;
+
+		fromLightVector = worldPosition.xyz - lightPosition;
 	}
 	)";
 
@@ -32,13 +36,17 @@ namespace shaders
 
 	in vec4 clipSpace;
 	in vec3 toCameraVector;
+	in vec3 fromLightVector;
 	
 	out vec4 outColor;
 
 	uniform sampler2D reflectTexture;
 	uniform sampler2D refractTexture;
+	uniform vec3 lightColor;
 
 	const float reflectivity = 2.0;
+	const float shineDamper = 20.0;
+	const float lightReflectivity = 0.6;
 	
 	void main(void)
 	{
@@ -51,12 +59,21 @@ namespace shaders
 		vec4 reflectColor = texture(reflectTexture, reflectTexCoords);
 		vec4 refractColor = texture(refractTexture, refractTexCoords);
 
+		// Fresnel effect
 		vec3 viewVector = normalize(toCameraVector);
-		float refractiveFactor = dot(viewVector, vec3(0.0, 1.0, 0.0));
+		vec3 normal = vec3(0.0, 1.0, 0.0);
+		float refractiveFactor = dot(viewVector, normal);
 		refractiveFactor = pow(refractiveFactor, reflectivity);
+
+		// Specular lighting
+		vec3 reflectedLightDirection = reflect(normalize(fromLightVector), normal);
+		float dotSpecular = dot(reflectedLightDirection, viewVector);
+		dotSpecular = max(dotSpecular, 0.0);
+		float dampedSpecular = pow(dotSpecular, shineDamper);
+		vec3 specular = dampedSpecular * lightReflectivity * lightColor;
 	
 		outColor = mix(reflectColor, refractColor, refractiveFactor);
-		outColor = mix(outColor, vec4(0.0, 0.6, 0.9, 1.0), 0.2);
+		outColor = mix(outColor, vec4(0.0, 0.6, 0.9, 1.0), 0.2) + vec4(specular, 0.0);
 	}
 	)";
 	
@@ -79,6 +96,12 @@ namespace shaders
 		loadMatrix(location_viewMatrix, viewMatrix);
 	}
 
+	void WaterShader::loadLight(const entities::Light& sun)
+	{
+		loadVector(location_lightColor, sun.getColor());
+		loadVector(location_lightPosition, sun.getPosition());
+	}
+
 	void WaterShader::connectTextures()
 	{
 		loadInt(location_reflectTexture, 0);
@@ -97,5 +120,7 @@ namespace shaders
 		location_viewMatrix = getUniformLocation("viewMatrix");
 		location_reflectTexture = getUniformLocation("reflectTexture");
 		location_refractTexture = getUniformLocation("refractTexture");
+		location_lightColor = getUniformLocation("lightColor");
+		location_lightPosition = getUniformLocation("lightPosition");
 	}
 }

@@ -1,7 +1,5 @@
 #include "Entity.h"
 
-#include <iostream>
-
 namespace entities
 {
 	Entity::Entity(const models::TexturedModel& model, const glm::vec3& position, const glm::vec3& rotation, float scale)

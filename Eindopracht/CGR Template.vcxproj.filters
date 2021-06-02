@@ -51,6 +51,9 @@
     <ClCompile Include="code\water\WaterFrameBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="code\entities\CloudGroup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\renderEngine\Loader.h">
@@ -96,6 +99,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="code\water\WaterFrameBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="code\entities\CloudGroup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
