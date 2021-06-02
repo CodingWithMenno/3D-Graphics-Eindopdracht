@@ -10,7 +10,7 @@ namespace renderEngine
 {
 	namespace renderer
 	{
-		static const glm::vec3 SKY_COLOR = { 0.5f, 0.8f, 0.9f };
+		static const glm::vec3 SKY_COLOR = { 0.9, 0.8, 0.2 };
 
 		/*
 			Call this function when starting the program

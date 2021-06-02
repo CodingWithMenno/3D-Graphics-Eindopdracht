@@ -65,13 +65,19 @@ int main(void)
     entities::Player player(playerModel, glm::vec3(0, 35, 0), 1);
     entities.push_back(&player);
 
-    entities::Light sun(glm::vec3(500, 1000, -7000), glm::vec3(2.2, 2.2, 1));
+    models::RawModel sunRawModel = renderEngine::LoadObjModel("res/Sun.obj");
+    models::ModelTexture sunTexture = { renderEngine::loader::LoadTexture("res/Texture.png") };
+    models::TexturedModel sunModel = { sunRawModel, sunTexture };
+    entities::Entity sunEntity(sunModel, glm::vec3(110, 150, -200), glm::vec3(25, -23, 0), 10);
+    entities.push_back(&sunEntity);
+
+    entities::Light sun(glm::vec3(100, 140, -170), glm::vec3(1.7, 1.2, 0.4));
 	
     entities::Camera camera(player);
 
 	
     // Water
-    water::WaterTile waterTile = { glm::vec3(0, 23, 0), 80 };
+    water::WaterTile waterTile = { glm::vec3(0, 19, 0), 80 };
     water::frameBuffer::Init();
 	
 	
@@ -80,7 +86,7 @@ int main(void)
 
     shaders::EntityShader entityShader;
     entityShader.init();
-	
+
     renderEngine::renderer::Init(entityShader, waterShader);
 
     std::cout << "Ready" << std::endl;

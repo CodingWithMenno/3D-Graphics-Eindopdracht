@@ -20,7 +20,7 @@ namespace shaders
 
 	public:
 		ShaderProgram(std::string& vertexShader, std::string& fragmentShader);
-		virtual ~ShaderProgram() = default;
+		virtual ~ShaderProgram() { cleanUp(); }
 
 		// Call this function after making the shaderprogram (sets all the attributes of the shader)
 		void init();
