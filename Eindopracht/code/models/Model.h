@@ -21,6 +21,8 @@ namespace models
 		Structure for storing a texture (textureID) to apply to a RawModel.
 
 		Shinedamper = The amount of shine the model gives from the angle of looking to the model
+		reflectivity = The amount the model reflects light
+		emissionFactor = The amount the model itself shines (does not affect other entities in the game)
 	*/
 	struct ModelTexture
 	{

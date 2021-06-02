@@ -114,7 +114,7 @@ namespace renderEngine
         }
         catch (const std::exception& e)
         {
-            // Always go in here
+            std::cerr << "Could not load the model: " << fileName << std::endl;
         }
 
         inFile.close();

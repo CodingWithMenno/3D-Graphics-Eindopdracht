@@ -103,7 +103,6 @@ namespace shaders
 		float dampedSpecular = pow(dotSpecular, shineDamper);
 		vec3 specular = dampedSpecular * reflectivity * lightColor;
 		
-	
 		outColor = vec4(diffuse, 1.0) * texture(textureSampler, passTextureCoords) + vec4(specular, 1.0);
 		outColor = mix(vec4(skyColor, 1.0), outColor, visibility) + emissionFactor;
 	}

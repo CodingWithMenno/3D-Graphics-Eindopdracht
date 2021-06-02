@@ -56,13 +56,15 @@ int main(void)
 
 	// De scene opbouwen, ik weet het. Het ziet er niet uit
     std::vector<std::shared_ptr<entities::Entity>> entities;
-	
+
+	// Ground
     models::RawModel groundRawModel = renderEngine::LoadObjModel("res/Ground.obj");
     models::ModelTexture groundTexture = { renderEngine::loader::LoadTexture("res/Texture.png") };
     models::TexturedModel groundModel = { groundRawModel, groundTexture };
     std::shared_ptr<entities::Entity> ground(new entities::Entity(groundModel, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), 30));
     entities.push_back(ground);
 
+	// Tree's
     models::RawModel treeRawModel = renderEngine::LoadObjModel("res/Tree.obj");
     models::ModelTexture treeTexture = { renderEngine::loader::LoadTexture("res/TreeTexture.png") };
     models::TexturedModel treeModel = { treeRawModel, treeTexture };
@@ -73,15 +75,18 @@ int main(void)
     entities.push_back(std::make_shared<entities::Entity>(treeModel, glm::vec3(55, 25, -10), glm::vec3(0, 20, 0), 0.5));
     entities.push_back(std::make_shared<entities::Entity>(treeModel, glm::vec3(-100, 27, -100), glm::vec3(0, -70, 0), 1));
     entities.push_back(std::make_shared<entities::Entity>(treeModel, glm::vec3(80, 30, -90), glm::vec3(0, -120, 0), 0.7));
-	
+
+	// Player
     models::RawModel playerRawModel = renderEngine::LoadObjModel("res/Bee.obj");
     models::ModelTexture playerTexture = { renderEngine::loader::LoadTexture("res/Texture.png") };
     models::TexturedModel playerModel = { playerRawModel, playerTexture };
     std::shared_ptr <entities::Player> player(new entities::Player(playerModel, glm::vec3(0, 35, 0), 1));
     entities.push_back(player);
 
+	// Clouds
     entities::CloudGroup cloudGroup(glm::vec3(0, 100, 0), glm::vec2(230, 230), 7);
-	
+
+	// Sun model
     models::RawModel sunRawModel = renderEngine::LoadObjModel("res/Sun.obj");
     models::ModelTexture sunTexture = { renderEngine::loader::LoadTexture("res/Texture.png") };
     sunTexture.emissionFactor = 0.1f;
@@ -90,18 +95,16 @@ int main(void)
     entities.push_back(sunEntity);
 
     entities::Light sun(glm::vec3(100, 140, -170), glm::vec3(1.7, 1.2, 0.4));
-	
+
     entities::Camera camera(*player);
 
-	
-    // Water
+	// Water
     water::WaterTile waterTile = { glm::vec3(0, 19, 0), 80 };
     water::frameBuffer::Init();
 	
-	
+	// Shaders
     shaders::WaterShader waterShader;
     waterShader.init();
-
     shaders::EntityShader entityShader;
     entityShader.init();
 
@@ -121,7 +124,7 @@ int main(void)
 
 		// Render
 
-		// Get all the entities
+		// Get all the entities and combine them into 1 vector
         std::vector<std::shared_ptr<entities::Entity>> entitiesToRender;
         entitiesToRender.insert(entitiesToRender.begin(), entities.begin(), entities.end());
         std::vector<std::shared_ptr<entities::Entity>> clouds = cloudGroup.GetEntities();
